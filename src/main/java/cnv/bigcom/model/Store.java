@@ -25,6 +25,39 @@ public class Store implements Serializable {
     private String adminEmail;
     @SerializedName("order_email")
     private String orderEmail;
+    @SerializedName("address")
+    private String address;
+    private transient Address addr;
+
+    public Address getAddress() {
+        if (addr == null) {
+            addr = new Address();
+            if (address != null && !address.isEmpty()) {
+                String[] parts = address.split("\n");
+                if (parts.length > 3) {
+                    addr.setCountryName(parts[3].trim());
+                }
+                if (parts.length > 2) {
+                    String line2 = parts[2];
+                    String[] line2Split = line2.split(",");
+                    if (line2Split.length > 1) {
+                        addr.setCity(line2Split[0].trim());
+                        String state_pin = line2Split[1].trim();
+                        String[] state_pin_split = state_pin.split(" ");
+                        if (state_pin_split.length > 1) {
+                            addr.setPincode(state_pin_split[1].trim());
+                            addr.setState(state_pin_split[0].trim());
+                        }
+                    }
+                }
+                if (parts.length > 1) {
+                    addr.setAddress1(parts[0].trim());
+                    addr.setAddress2(parts[1].trim());
+                }
+            }
+        }
+        return addr;
+    }
 
     public String getStoreId() {
         return id;

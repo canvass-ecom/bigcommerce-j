@@ -20,8 +20,7 @@ public class Order extends BaseModel {
     private long customerId;
     @SerializedName("total_inc_tax")
     private float totalPrice;
-    @SerializedName("products")
-    private List<Item> products;
+    private transient List<Item> orderItems;
     @SerializedName("date_created")
     private Date orderDate;
 
@@ -43,14 +42,6 @@ public class Order extends BaseModel {
 
     public void setOrderDate(Date orderDate) {
         this.orderDate = orderDate;
-    }
-
-    public List<Item> getProducts() {
-        return products;
-    }
-
-    public void setProducts(List<Item> products) {
-        this.products = products;
     }
 
     public void setCurrency(String currency) {

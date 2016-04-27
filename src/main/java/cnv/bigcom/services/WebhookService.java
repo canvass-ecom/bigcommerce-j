@@ -40,8 +40,9 @@ public class WebhookService extends BaseService {
                 setHeader("Content-Type", "application/json").
                 setEntity(new StringEntity(Utill.getGson().toJson(ww))).
                 build();
-        Webhook hook = ResponseParser.parser().parse(execute(build), Webhook.class);
-        return hook;
+        String json = execute(build);
+        System.out.println(json);
+        return ResponseParser.parser().parse(json, Webhook.class);
     }
 
     public Webhook updateWebhook(int hookId, String url, boolean activeFlag) throws Exception {

@@ -17,9 +17,11 @@ public class Address extends BaseModel {
         residential,
         commercial;
     }
-    @SerializedName("address1")
+    @SerializedName("customer_id")
+    private long custId;
+    @SerializedName("street_1")
     private String address1;
-    @SerializedName("address2")
+    @SerializedName("street_2")
     private String address2;
     @SerializedName("city")
     private String city;
@@ -29,16 +31,10 @@ public class Address extends BaseModel {
     private String phone;
     @SerializedName("zip")
     private String pincode;
+    @SerializedName("state")
+    private String state;
     @SerializedName("address_type")
     private AddressType addressType;
-
-    public AddressType getAddressType() {
-        return addressType;
-    }
-
-    public void setAddressType(AddressType addressType) {
-        this.addressType = addressType;
-    }
 
     public String getAddress1() {
         return address1;
@@ -54,6 +50,14 @@ public class Address extends BaseModel {
 
     public void setAddress2(String address2) {
         this.address2 = address2;
+    }
+
+    public AddressType getAddressType() {
+        return addressType;
+    }
+
+    public void setAddressType(AddressType addressType) {
+        this.addressType = addressType;
     }
 
     public String getCity() {
@@ -72,6 +76,14 @@ public class Address extends BaseModel {
         this.countryName = countryName;
     }
 
+    public long getCustId() {
+        return custId;
+    }
+
+    public void setCustId(long custId) {
+        this.custId = custId;
+    }
+
     public String getPhone() {
         return phone;
     }
@@ -86,6 +98,14 @@ public class Address extends BaseModel {
 
     public void setPincode(String pincode) {
         this.pincode = pincode;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
     }
 
     public static void main(String[] args) {

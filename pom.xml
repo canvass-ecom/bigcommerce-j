@@ -5,13 +5,15 @@
 
     <groupId>canvass</groupId>
     <artifactId>bigcommerce-j</artifactId>
-    <version>3.1.0-SNAPSHOT</version>
+    <version>0.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>bigcommerce-j</name>
     <url>http://maven.apache.org</url>
 
     <properties>
+        <!-- github server corresponds to entry in ~/.m2/settings.xml -->
+        <github.global.server>canvass</github.global.server>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <apache.httpcomponents.version>4.3.2</apache.httpcomponents.version>
     </properties>
@@ -84,7 +86,7 @@
                         <include>**/*</include>
                     </includes>
                     <repositoryName>bigcommerce-j</repositoryName>      <!-- github repo name -->
-                    <repositoryOwner>ankurnandu-canvass</repositoryOwner>    <!-- github username  -->
+                    <repositoryOwner>canvass-ecom</repositoryOwner>    <!-- github username  -->
                 </configuration>
                 <executions>
               <!-- run site-maven-plugin's 'site' target as part of the build's normal 'deploy' phase -->

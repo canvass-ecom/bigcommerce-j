@@ -6,6 +6,7 @@ package cnv.bigcom.model;
 
 import com.google.gson.annotations.SerializedName;
 import java.util.Date;
+import java.util.List;
 
 /**
  *
@@ -27,17 +28,37 @@ public class Customer extends BaseModel {
     private Float totalSpent;
     @SerializedName(value = "orders_count")
     private int totalOrders = 0;
-    @SerializedName(value = "default_address")
-    private Address defaultAddress;
+    private List<Address> _addresses;
     @SerializedName(value = "date_created")
     private Date registeredDate;
+    private transient Address defaultAddress;
 
+    public void setAddresses(List<Address> addresses) {
+        this._addresses = addresses;
+    }
+
+    /**
+     * This method will gives the default address <p>Note: gives high priority
+     * to "residential" then "commercial"</p>
+     */
     public Address getDefaultAddress() {
+        if (defaultAddress == null) {
+            if (_addresses != null && !_addresses.isEmpty()) {
+                for (Address address : _addresses) {
+                    defaultAddress = address;
+                    if (address.getAddressType() == Address.AddressType.residential) {
+                        // if the address is a resedential then stopping the process
+                        // as we are giving the high proiority to residential
+                        break;
+                    }
+                }
+            }
+        }
         return defaultAddress;
     }
 
-    public void setDefaultAddress(Address defaultAddress) {
-        this.defaultAddress = defaultAddress;
+    public String getFullName() {
+        return (firstName != null ? firstName : "") + (lastName != null ? " " + lastName : "");
     }
 
     public String getEmail() {

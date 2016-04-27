@@ -5,6 +5,7 @@
 package cnv.bigcom.services;
 
 import cnv.bigcom.ResponseParser;
+import cnv.bigcom.model.Address;
 import cnv.bigcom.model.Customer;
 import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
@@ -39,11 +40,26 @@ public class CustomerService extends BaseService {
         HttpUriRequest build = RequestBuilder.get().setUri(client.getBaseUrl() + path).
                 addParameter("page", "" + page).
                 addParameter("limit", "" + limit).
-                //addParameter("fields", ShopifyUtil.getFieldsAsCsv(Customer.class)).
                 build();
         Type type = new TypeToken<List<Customer>>() {
         }.getType();
-        return ResponseParser.parser().parse(execute(build), type);
+        List<Customer> data = ResponseParser.parser().parse(execute(build), type);
+        if (data != null && !data.isEmpty()) {
+            for (Customer cust : data) {
+                cust.setAddresses(getAddress(cust.getId()));
+            }
+        }
+        return data;
+    }
+
+    private List<Address> getAddress(long custId) throws Exception {
+        String path = "/customers/" + custId + "/addresses";
+        HttpUriRequest build = RequestBuilder.get().setUri(client.getBaseUrl() + path).
+                build();
+        Type type = new TypeToken<List<Address>>() {
+        }.getType();
+        String json = execute(build);
+        return ResponseParser.parser().parse(json, type);
     }
 
     public int getCount() throws Exception {
@@ -52,7 +68,7 @@ public class CustomerService extends BaseService {
                 build();
         Type type = new TypeToken<HashMap>() {
         }.getType();
-        Map map = ResponseParser.parser().parse(execute(build), type);        
+        Map map = ResponseParser.parser().parse(execute(build), type);
         return (map != null ? ((Number) map.get("count")).intValue() : 0);
     }
 }
